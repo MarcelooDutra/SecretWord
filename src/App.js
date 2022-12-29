@@ -19,6 +19,7 @@ const stages = [
   {id: 3, name: "end"},
 ]
 
+const qtdTentativas = 3
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
   //states para, letras advinhadas, letras erradas, tentativas e pontuação.
   const[letrasAdvinhadas, setLetrasAdvinhadas] = useState([])
   const[letrasErradas, setLetrasErradas] = useState([])
-  const[tentativas, setTentativas] = useState(4)
+  const[tentativas, setTentativas] = useState(qtdTentativas)
   const[pontos, setPontos] = useState(0)
 
   //Função para pegar uma categoria aleatória
@@ -72,11 +73,56 @@ function App() {
  }
 
  //Função para verificar lestras
- const verificarCartas = () => {
-  setGameStage(stages[2].name)
+ const verificarLetras = (letra) => {
+
+  //padronizando as letras para minusculas.
+ const normalizaLetras = letra.toLowerCase()
+
+ //condição para retornar letras advinhadas ou erradas.
+ if(letrasAdvinhadas.includes(normalizaLetras) || letrasErradas.includes(normalizaLetras)){
+  return;
+ }
+ // setGameStage(stages[2].name)
+
+ //copiando letras ja utilizadas(erradas ou certas).
+ if(letraWord.includes(normalizaLetras)){
+  setLetrasAdvinhadas((actualLetrasAdvinhadas) =>[
+    ...actualLetrasAdvinhadas,
+    normalizaLetras,
+  ])
+ }else{
+  setLetrasErradas((actualLetrasErradas) =>[
+    ...actualLetrasErradas,
+    normalizaLetras,
+  ])
  }
 
+ //para contar as tentativas.
+ setTentativas((actualTentativas) => actualTentativas -1)
+
+ }
+
+ //cria-se uma função para zerar o jogo quando reiniciar.
+ const clearLetterStates = () =>{
+  setLetrasAdvinhadas([])
+  setLetrasErradas([])
+ }
+
+ //monitorar as tentativas sempre que forem alteradas.
+  useEffect(() => {
+  if(tentativas <= 0){
+
+    clearLetterStates()
+
+    setGameStage(stages[2].name)
+  }
+ },[tentativas])
+
  const resetarJogo = () => {
+
+  setPontos(0)
+  setTentativas(qtdTentativas)
+
   setGameStage(stages[0].name)
  }
 
@@ -85,7 +131,7 @@ function App() {
     {gameStage === 'start' && <StartScreen iniciar={iniciar}/>}
     {gameStage === "game" && (
     <Game 
-    verificarCartas={verificarCartas}
+    verificarLetras={verificarLetras}
     palavrasWord={palavrasWord} 
     categoriaWord={categoriaWord} 
     letraWord={letraWord} 
@@ -94,7 +140,7 @@ function App() {
     tentativas={tentativas}
     pontos={pontos}/>
     )}
-    {gameStage === "end" && <GameOver resetarJogo={resetarJogo}/>}
+    {gameStage === "end" && <GameOver resetarJogo={resetarJogo} pontos={pontos}/>}
     </div>
   );
 }

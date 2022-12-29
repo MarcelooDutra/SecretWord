@@ -1,6 +1,27 @@
+import { useRef, useState } from 'react'
 import './Game.css'
 
-const Game = ({verificarCartas, palavrasWord, categoriaWord, letraWord, letrasAdvinhadas, letrasErradas, tentativas, pontos}) => {
+const Game = ({verificarLetras, palavrasWord, categoriaWord, letraWord, letrasAdvinhadas, letrasErradas, tentativas, pontos}) => {
+
+    //cria-se um state para atrelar a letra no input.
+    const [letra, setLetra] = useState("")
+
+    //cria-se uma função para que utilizemos o state no form.
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        verificarLetras(letra)
+
+        //para apagar a letra
+        setLetra("")
+
+        //para focar no input
+        letraInputRef.current.focus()
+    }
+
+    //hoks de referencia para o input
+    const letraInputRef = useRef(null)
+
   return (
     <div className='game'>
        <p className='pontos'>
@@ -22,8 +43,8 @@ const Game = ({verificarCartas, palavrasWord, categoriaWord, letraWord, letrasAd
         </div>
         <div className='letrasContainer'>
             <p>Tente advinhar uma letra da palavra</p>
-            <form>
-                <input type="text" name='letras' maxLength="1" required />
+            <form onSubmit={handleSubmit}>
+                <input type="text" name='letras' maxLength="1" required onChange={(e) => setLetra(e.target.value)} value={letra} ref={letraInputRef}/>
                 <button>Jogar!</button>
             </form>
         </div>
