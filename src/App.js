@@ -25,10 +25,16 @@ function App() {
   const[gameStage, setGameStage] = useState(stages[0].name) 
   const[Words] = useState(WordsList)
 
-  
+  //states para, palavra aleatoria, categoria e letra.
   const[palavrasWord, setPalavrasWord] = useState("")
   const[categoriaWord, setCategoriaWord] = useState("")
   const[letraWord, setLetraWord] = useState([])
+
+  //states para, letras advinhadas, letras erradas, tentativas e pontuação.
+  const[letrasAdvinhadas, setLetrasAdvinhadas] = useState([])
+  const[letrasErradas, setLetrasErradas] = useState([])
+  const[tentativas, setTentativas] = useState(4)
+  const[pontos, setPontos] = useState(0)
 
   //Função para pegar uma categoria aleatória
   const categoria = () => {
@@ -77,7 +83,17 @@ function App() {
   return (
     <div className="App">
     {gameStage === 'start' && <StartScreen iniciar={iniciar}/>}
-    {gameStage === "game" && <Game verificarCartas={verificarCartas}/>}
+    {gameStage === "game" && (
+    <Game 
+    verificarCartas={verificarCartas}
+    palavrasWord={palavrasWord} 
+    categoriaWord={categoriaWord} 
+    letraWord={letraWord} 
+    letrasAdvinhadas={letrasAdvinhadas}
+    letrasErradas={letrasErradas}
+    tentativas={tentativas}
+    pontos={pontos}/>
+    )}
     {gameStage === "end" && <GameOver resetarJogo={resetarJogo}/>}
     </div>
   );
