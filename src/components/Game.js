@@ -42,14 +42,14 @@ const Game = ({verificarLetras, palavrasWord, categoriaWord, letraWord, letrasAd
            ))}
         </div>
         <div className='letrasContainer'>
-            <p>Tente advinhar uma letra da palavra</p>
+            <p>Tente advinhar uma letra da palavra:</p>
             <form onSubmit={handleSubmit}>
                 <input type="text" name='letras' maxLength="1" required onChange={(e) => setLetra(e.target.value)} value={letra} ref={letraInputRef}/>
                 <button>Jogar!</button>
             </form>
         </div>
         <div className='letrasJaUtilizadas'>
-            <p>Letras já utilizadas</p>
+            <p>Letras já utilizadas:</p>
             {letrasErradas.map((letra, i) => (
                 <span key={i}>{letra}, </span>
             ))}

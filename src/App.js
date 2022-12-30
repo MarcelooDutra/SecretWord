@@ -52,10 +52,10 @@ function App() {
   }
 
  //Funcao de start game
- const iniciar = useCallBack(() => {
+ const iniciar = () => {
 
-  //resetar todas as letras
-  clearLetterStates()
+   //resetar todas as letras
+   clearLetterStates()
 
   const {palavras, category} = categoria()
 
@@ -74,7 +74,7 @@ function App() {
   setLetraWord(letras)
 
   setGameStage(stages[1].name)
- })
+ }
 
  //Função para verificar lestras
  const verificarLetras = (letra) => {
@@ -99,10 +99,10 @@ function App() {
     ...actualLetrasErradas,
     normalizaLetras,
   ])
- }
 
- //para contar as tentativas.
+  //para contar as tentativas.
  setTentativas((actualTentativas) => actualTentativas -1)
+ }
 
  }
 
@@ -123,7 +123,7 @@ function App() {
  },[tentativas])
 
  //monitorando condição de vitoria.
- useEffect(() =>{
+ useEffect(() => {
   const unificLetras = [...new Set(letraWord)]
 
   //condição de vitoria
