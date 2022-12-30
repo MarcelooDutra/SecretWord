@@ -42,11 +42,9 @@ function App() {
     const categorie = Object.keys(Words)
     const category = categorie[Math.floor(Math.random() * Object.keys(categorie).length)]
 
-    console.log(category)
     
     const palavras = Words[category][Math.floor(Math.random() * Words[category].length)]
 
-    console.log(palavras)
 
     return { palavras, category }
   }
@@ -64,9 +62,6 @@ function App() {
 
   //para retornar a primeira letra em minuscula
   letras = letras.map((l) => l.toLowerCase())
-
-  console.log(palavras, category)
-  console.log(letras)
 
   //setando(alterando) os estados.
   setCategoriaWord(category)
