@@ -52,7 +52,11 @@ function App() {
   }
 
  //Funcao de start game
- const iniciar = () => {
+ const iniciar = useCallBack(() => {
+
+  //resetar todas as letras
+  clearLetterStates()
+
   const {palavras, category} = categoria()
 
   //Pegando as letras dos array de palavras.
@@ -70,7 +74,7 @@ function App() {
   setLetraWord(letras)
 
   setGameStage(stages[1].name)
- }
+ })
 
  //Função para verificar lestras
  const verificarLetras = (letra) => {
@@ -117,6 +121,21 @@ function App() {
     setGameStage(stages[2].name)
   }
  },[tentativas])
+
+ //monitorando condição de vitoria.
+ useEffect(() =>{
+  const unificLetras = [...new Set(letraWord)]
+
+  //condição de vitoria
+  if(letrasAdvinhadas.length === unificLetras.length){
+    //add pontuação
+    setPontos((actualPontos) => actualPontos += 100)
+
+    //restart do jogo
+    iniciar()
+  }
+
+ }, [letrasAdvinhadas, letraWord, iniciar])
 
  const resetarJogo = () => {
 
